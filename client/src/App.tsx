@@ -1,14 +1,21 @@
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import BookingPage from "./pages/BookingPage";
+import Navigation from "./components/Navigation";
 
-import './App.css'
-import HomePage from './pages/HomePage'
-
-function App() {
-
+const App: React.FC = () => {
   return (
-    <>
-      <HomePage/>
-    </>
-  )
-}
+    <Router>
+      <div className="app">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/booking" element={<BookingPage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
 
-export default App
+export default App;

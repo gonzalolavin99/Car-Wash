@@ -1,0 +1,100 @@
+body {
+    background-color: #ffffff;
+    color: #333333;
+  }
+  
+  .booking-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  .booking-page h1 {
+    color: #0077be;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333333;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: #333333;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #0077be;
+    box-shadow: 0 0 0 2px rgba(0, 119, 190, 0.2);
+  }
+  
+  .form-group input[aria-invalid="true"],
+  .form-group select[aria-invalid="true"] {
+    border-color: #ff0000;
+  }
+  
+  .error {
+    color: #ff0000;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  button[type="submit"] {
+    background-color: #0077be;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #005f9e;
+  }
+  
+  button[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 119, 190, 0.5);
+  }
+  
+  @media (max-width: 600px) {
+    .booking-page {
+      padding: 1rem;
+    }
+  }
+  
+  /* Estilos para Toastify */
+  .Toastify__toast--success {
+    background: #0077be !important;
+    color: #ffffff !important;
+  }
+  
+  .Toastify__toast--error {
+    background: #ff0000 !important;
+    color: #ffffff !important;
+  }
+  
+  .Toastify__progress-bar {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+  }
