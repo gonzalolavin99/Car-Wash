@@ -1,13 +1,12 @@
-body {
-  background-color: #ffffff;
-  color: #333333;
-}
-
 .booking-page {
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
   padding: 2rem;
   font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
 }
 
 .booking-page h1 {
