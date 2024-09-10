@@ -1,7 +1,7 @@
     import express  from "express";
     import cors from 'cors';
     import dotenv from 'dotenv';
-    import bookingRoutes from './routes/bookingRoutes.ts';
+    import bookingRoutes from './routes/bookingRoutes';
 
     dotenv.config();
 
