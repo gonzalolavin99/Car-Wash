@@ -49,6 +49,17 @@ async getUserByEmail(email: string): Promise<User | null> {
     }
 }
 
+async getAllUsers(): Promise<User[]> {
+    const query = 'SELECT id, email, name, role FROM users';
+    try {
+      const result = await this.pool.query(query);
+      return result.rows;
+    } catch (error) {
+      console.error('Error in getAllUsers:', error);
+      throw new Error('Failed to get all users');
+    }
+  }
+
 async updateUser(id: number, updates: Partial<User>) : Promise<User | null> {
     const fields = Object.keys(updates).map((key, index) => `${key} = $${index + 2}`).join(', ');
     const values = Object.values(updates);
