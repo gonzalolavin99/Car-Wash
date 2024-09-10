@@ -1,20 +1,30 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import BookingPage from "./pages/BookingPage";
-import Navigation from "./components/Navigation";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Login from './components/Login';
+import Register from './components/Register';
+import HomePage from './pages/HomePage';
+
+const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+};
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div className="app">
-        <Navigation />
+    <AuthProvider>
+      <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/booking" element={<BookingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          } />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 };
 
