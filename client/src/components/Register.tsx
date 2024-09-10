@@ -4,55 +4,67 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Register: React.FC = () => {
-  // Estado local para los campos del formulario
+  // Estado para almacenar los valores de los campos del formulario
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Función para validar el formulario antes de enviarlo
+  const validateForm = () => {
+    // Verifica que las contraseñas coincidan
+    if (password !== confirmPassword) {
+      toast.error('Las contraseñas no coinciden');
+      return false;
+    }
+    // Verifica que la contraseña tenga al menos 6 caracteres
+    if (password.length < 6) {
+      toast.error('La contraseña debe tener al menos 6 caracteres');
+      return false;
+    }
+    // Verifica que el email tenga un formato válido
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error('Email inválido');
+      return false;
+    }
+    return true;
+  };
 
   // Función para manejar el envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Valida el formulario antes de enviarlo
+    if (!validateForm()) return;
+
     try {
-      // Enviar solicitud de registro al servidor
+      // Envía la solicitud de registro al servidor
       const response = await axios.post('http://localhost:3000/auth/register', {
         name,
         email,
         password
       });
       
-      // Mostrar notificación de éxito
+      // Muestra un mensaje de éxito si el registro es exitoso
       toast.success('Registro exitoso!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: { background: '#0077be', color: 'white' } // Color azul de la página
+        style: { background: '#0077be', color: 'white' }
       });
       
       console.log(response.data);
-      // Aquí puedes redirigir al usuario o realizar otras acciones post-registro
+      // Aquí puedes agregar lógica adicional post-registro, como redireccionar al usuario
     } catch (err) {
-      // Mostrar notificación de error
+      // Muestra un mensaje de error si el registro falla
       toast.error('Error al registrar. Por favor, inténtalo de nuevo.', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: { background: '#ff0000', color: 'white' } // Color rojo para errores
+        style: { background: '#ff0000', color: 'white' }
       });
     }
   };
 
+  // Renderiza el formulario de registro
   return (
     <form onSubmit={handleSubmit}>
       <h2>Registro</h2>
-      {/* Campo de entrada para el nombre */}
+      
+      {/* Campo para el nombre */}
       <div>
         <label htmlFor="name">Nombre:</label>
         <input
@@ -63,7 +75,8 @@ const Register: React.FC = () => {
           required
         />
       </div>
-      {/* Campo de entrada para el email */}
+
+      {/* Campo para el email */}
       <div>
         <label htmlFor="email">Email:</label>
         <input
@@ -74,7 +87,8 @@ const Register: React.FC = () => {
           required
         />
       </div>
-      {/* Campo de entrada para la contraseña */}
+
+      {/* Campo para la contraseña */}
       <div>
         <label htmlFor="password">Contraseña:</label>
         <input
@@ -85,10 +99,23 @@ const Register: React.FC = () => {
           required
         />
       </div>
+
+      {/* Campo para confirmar la contraseña */}
+      <div>
+        <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+      </div>
+
       {/* Botón de envío del formulario */}
       <button type="submit">Registrarse</button>
 
-      {/* Contenedor para las notificaciones de Toastify */}
+      {/* Contenedor para las notificaciones de Toast */}
       <ToastContainer />
     </form>
   );
