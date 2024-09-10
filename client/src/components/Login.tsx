@@ -3,9 +3,8 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Register: React.FC = () => {
+const Login: React.FC = () => {
   // Estado local para los campos del formulario
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,15 +12,14 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Enviar solicitud de registro al servidor
-      const response = await axios.post('http://localhost:3000/auth/register', {
-        name,
+      // Enviar solicitud de inicio de sesión al servidor
+      const response = await axios.post('http://localhost:3000/auth/login', {
         email,
         password
       });
       
       // Mostrar notificación de éxito
-      toast.success('Registro exitoso!', {
+      toast.success('Inicio de sesión exitoso!', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -31,12 +29,14 @@ const Register: React.FC = () => {
         progress: undefined,
         style: { background: '#0077be', color: 'white' } // Color azul de la página
       });
-      
+
       console.log(response.data);
-      // Aquí puedes redirigir al usuario o realizar otras acciones post-registro
+      // Guardar el token en el almacenamiento local
+      localStorage.setItem('token', response.data.token);
+      // Aquí deberías redirigir al usuario o actualizar el estado de la aplicación
     } catch (err) {
       // Mostrar notificación de error
-      toast.error('Error al registrar. Por favor, inténtalo de nuevo.', {
+      toast.error('Email o contraseña incorrectos', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -51,18 +51,7 @@ const Register: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Registro</h2>
-      {/* Campo de entrada para el nombre */}
-      <div>
-        <label htmlFor="name">Nombre:</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
+      <h2>Iniciar Sesión</h2>
       {/* Campo de entrada para el email */}
       <div>
         <label htmlFor="email">Email:</label>
@@ -86,7 +75,7 @@ const Register: React.FC = () => {
         />
       </div>
       {/* Botón de envío del formulario */}
-      <button type="submit">Registrarse</button>
+      <button type="submit">Iniciar Sesión</button>
 
       {/* Contenedor para las notificaciones de Toastify */}
       <ToastContainer />
@@ -94,4 +83,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default Login;
