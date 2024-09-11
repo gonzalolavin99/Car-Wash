@@ -105,8 +105,7 @@ const BookingPage: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axios.post('http://localhost:3000/bookings', formData);
-        console.log("Respuesta del servidor:", response.data);
+        const response = await axios.post('http://localhost:3000/api/bookings', formData);        console.log("Respuesta del servidor:", response.data);
         toast.success("Reserva realizada con éxito!", {
           position: "top-right",
           autoClose: 5000,

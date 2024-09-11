@@ -6,13 +6,14 @@ export interface Booking {
   name: string;
   email: string;
   phone: string;
-  date: Date;
-  time: string;
+  booking_date: string;
+  booking_time: string;
   service: string;
-  vehicleType: string;
+  vehicle_type: string;
   brand: string;
   model: string;
-  licensePlate: string;
+  license_plate: string;
+  status?: string;
 }
 
 export class BookingModel {
@@ -23,34 +24,22 @@ export class BookingModel {
   }
 
   async createBooking(booking: Booking): Promise<Booking> {
-    const {
-      name,
-      email,
-      phone,
-      date,
-      time,
-      service,
-      vehicleType,
-      brand,
-      model,
-      licensePlate,
-    } = booking;
     const query = `
-      INSERT INTO bookings (name, email, phone, date, time, service, vehicle_type, brand, model, license_plate)
+      INSERT INTO bookings (name, email, phone, booking_date, booking_time, service, vehicle_type, brand, model, license_plate)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING *
     `;
     const values = [
-      name,
-      email,
-      phone,
-      date,
-      time,
-      service,
-      vehicleType,
-      brand,
-      model,
-      licensePlate,
+      booking.name,
+      booking.email,
+      booking.phone,
+      booking.booking_date,
+      booking.booking_time,
+      booking.service,
+      booking.vehicle_type,
+      booking.brand,
+      booking.model,
+      booking.license_plate,
     ];
 
     try {

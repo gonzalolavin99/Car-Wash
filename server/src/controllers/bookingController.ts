@@ -3,17 +3,26 @@ import { bookingModel, Booking } from "../models/booking";
 
 export const createBooking = async (req: Request, res: Response) => {
   try {
-    const booking: Booking = req.body;
+    const booking: Booking = {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      booking_date: req.body.date,
+      booking_time: req.body.time,
+      service: req.body.service,
+      vehicle_type: req.body.vehicleType,
+      brand: req.body.brand,
+      model: req.body.model,
+      license_plate: req.body.licensePlate,
+    };
     const newBooking = await bookingModel.createBooking(booking);
     res.status(201).json(newBooking);
   } catch (error) {
     console.error("Error creating booking:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error creating booking",
-        error: error instanceof Error ? error.message : String(error),
-      });
+    res.status(500).json({
+      message: "Error creating booking",
+      error: error instanceof Error ? error.message : String(error),
+    });
   }
 };
 

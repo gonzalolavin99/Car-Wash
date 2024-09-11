@@ -94,6 +94,38 @@
   font-size: 0.9em;
 }
 
+.nav-links {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.nav-link {
+  color: #0077be;
+  text-decoration: none;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link svg {
+  margin-right: 0.5rem;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0077be;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.logout-button:hover {
+  text-decoration: underline;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .service-card {

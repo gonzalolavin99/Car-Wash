@@ -1,18 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Calendar, Car, DollarSign } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Calendar, Car, DollarSign, User, LogOut } from 'lucide-react';
 import '../styles/HomePage.css';
 
-// Definimos un tipo para nuestros servicios
 type Service = {
   icon: React.ReactNode;
   title: string;
   description: string;
 };
 
-// Componente funcional para la página de inicio
 const HomePage: React.FC = () => {
-  // Definimos nuestros servicios principales
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    navigate('/');
+  };
+
   const services: Service[] = [
     {
       icon: <Calendar size={24} />,
@@ -33,20 +45,32 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-page">
-      {/* Sección de navegación */}
       <nav className="nav-links">
-        <Link to="/login" className="nav-link">Iniciar Sesión</Link>
-        <Link to="/register" className="nav-link">Registrarse</Link>
+        {isAuthenticated ? (
+          <>
+            <Link to="/profile" className="nav-link">
+              <User size={20} />
+              Perfil
+            </Link>
+            <button onClick={handleLogout} className="nav-link logout-button">
+              <LogOut size={20} />
+              Cerrar Sesión
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="nav-link">Iniciar Sesión</Link>
+            <Link to="/register" className="nav-link">Registrarse</Link>
+          </>
+        )}
       </nav>
 
-      {/* Sección de hero */}
       <section className="hero">
         <h1>AutoSpa Deluxe</h1>
         <p>Descubre la experiencia definitiva en lavado y cuidado de autos</p>
         <Link to="/booking" className="cta-button">Reservar ahora</Link>
       </section>
 
-      {/* Sección de servicios */}
       <section className="services">
         {services.map((service, index) => (
           <div key={index} className="service-card">

@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas de autenticación
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 // Rutas de usuario
 app.use('/api/users', userRoutes);
