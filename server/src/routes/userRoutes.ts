@@ -1,18 +1,15 @@
 import express from 'express';
-import {register, login, getUserProfile, updateUserProfile, getAllUsers, deleteUser} from '../controllers/userController';
+import { getUserProfile, updateUserProfile, getAllUsers, deleteUser } from '../controllers/userController';
 import { authenticateJWT, isAdmin } from '../middleware/auth';
 
 const router = express.Router();
 
-router.post('./register', register);
-router.post('./login', login);
-router.get('./profile', authenticateJWT, getUserProfile);
-router.get('./profile', authenticateJWT, updateUserProfile);
+// Rutas de usuario autenticado
+router.get('/profile', authenticateJWT, getUserProfile);
+router.put('/profile', authenticateJWT, updateUserProfile);
 
-//admin routes
-
+// Rutas de administrador
 router.get('/admin/users', authenticateJWT, isAdmin, getAllUsers);
 router.delete('/admin/users/:id', authenticateJWT, isAdmin, deleteUser);
 
 export default router;
-

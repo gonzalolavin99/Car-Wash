@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../styles/Register.css'; // Importamos los estilos
+
+const API_URL= 'http://localhost:3000';
 
 const Register: React.FC = () => {
   // Estado para almacenar los valores de los campos del formulario
@@ -38,7 +41,7 @@ const Register: React.FC = () => {
 
     try {
       // Envía la solicitud de registro al servidor
-      const response = await axios.post('http://localhost:3000/auth/register', {
+      const response = await axios.post(`${API_URL}/auth/register`, {
         name,
         email,
         password
@@ -61,11 +64,11 @@ const Register: React.FC = () => {
 
   // Renderiza el formulario de registro
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="register-form">
       <h2>Registro</h2>
       
       {/* Campo para el nombre */}
-      <div>
+      <div className="form-group">
         <label htmlFor="name">Nombre:</label>
         <input
           type="text"
@@ -77,7 +80,7 @@ const Register: React.FC = () => {
       </div>
 
       {/* Campo para el email */}
-      <div>
+      <div className="form-group">
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -89,7 +92,7 @@ const Register: React.FC = () => {
       </div>
 
       {/* Campo para la contraseña */}
-      <div>
+      <div className="form-group">
         <label htmlFor="password">Contraseña:</label>
         <input
           type="password"
@@ -101,7 +104,7 @@ const Register: React.FC = () => {
       </div>
 
       {/* Campo para confirmar la contraseña */}
-      <div>
+      <div className="form-group">
         <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
         <input
           type="password"
@@ -113,7 +116,7 @@ const Register: React.FC = () => {
       </div>
 
       {/* Botón de envío del formulario */}
-      <button type="submit">Registrarse</button>
+      <button type="submit" className="submit-button">Registrarse</button>
 
       {/* Contenedor para las notificaciones de Toast */}
       <ToastContainer />

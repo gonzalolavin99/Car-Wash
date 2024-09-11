@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../styles/Login.css'; // Importamos los estilos
+
 
 const Login: React.FC = () => {
   // Estado para almacenar los valores de los campos del formulario
@@ -55,11 +57,11 @@ const Login: React.FC = () => {
 
   // Renderiza el formulario de inicio de sesión
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="login-form">
       <h2>Iniciar Sesión</h2>
       
       {/* Campo para el email */}
-      <div>
+      <div className="form-group">
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -71,7 +73,7 @@ const Login: React.FC = () => {
       </div>
 
       {/* Campo para la contraseña */}
-      <div>
+      <div className="form-group">
         <label htmlFor="password">Contraseña:</label>
         <input
           type="password"
@@ -83,7 +85,7 @@ const Login: React.FC = () => {
       </div>
 
       {/* Botón de envío del formulario */}
-      <button type="submit">Iniciar Sesión</button>
+      <button type="submit" className="submit-button">Iniciar Sesión</button>
 
       {/* Contenedor para las notificaciones de Toast */}
       <ToastContainer />
