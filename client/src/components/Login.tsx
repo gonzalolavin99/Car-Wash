@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -57,6 +59,10 @@ const Login: React.FC = () => {
 
   // Renderiza el formulario de inicio de sesión
   return (
+    <div className="login-page">
+    <div className="back-link">
+      <Link to="/">← Volver a la página principal</Link>
+    </div>
     <form onSubmit={handleSubmit} className="login-form">
       <h2>Iniciar Sesión</h2>
       
@@ -90,6 +96,7 @@ const Login: React.FC = () => {
       {/* Contenedor para las notificaciones de Toast */}
       <ToastContainer />
     </form>
+    </div>
   );
 };
 

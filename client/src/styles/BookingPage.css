@@ -9,6 +9,20 @@
   border-radius: 8px;
 }
 
+.back-link {
+  margin-bottom: 1rem;
+}
+
+.back-link a {
+  color: #0077be;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
 .booking-page h1 {
   color: #0077be;
   margin-bottom: 2rem;

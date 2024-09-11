@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Calendar, Car, DollarSign } from 'lucide-react';
-import '../styles/HomePage.css'; // Importamos los estilos
+import '../styles/HomePage.css';
 
 // Definimos un tipo para nuestros servicios
 type Service = {
@@ -32,11 +33,17 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-page">
+      {/* Sección de navegación */}
+      <nav className="nav-links">
+        <Link to="/login" className="nav-link">Iniciar Sesión</Link>
+        <Link to="/register" className="nav-link">Registrarse</Link>
+      </nav>
+
       {/* Sección de hero */}
       <section className="hero">
         <h1>AutoSpa Deluxe</h1>
         <p>Descubre la experiencia definitiva en lavado y cuidado de autos</p>
-        <button className="cta-button">Reservar ahora</button>
+        <Link to="/booking" className="cta-button">Reservar ahora</Link>
       </section>
 
       {/* Sección de servicios */}

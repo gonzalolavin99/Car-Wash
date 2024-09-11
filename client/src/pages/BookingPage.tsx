@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from 'axios'; // Asegúrate de tener axios instalado
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/BookingPage.css";
@@ -98,31 +101,45 @@ const BookingPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Formulario enviado:", formData);
-      toast.success("Reserva realizada con éxito!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        date: "",
-        time: "",
-        service: "",
-        vehicleType: "auto",
-        brand: "",
-        model: "",
-        licensePlate: "",
-      });
+      try {
+        const response = await axios.post('http://localhost:3000/bookings', formData);
+        console.log("Respuesta del servidor:", response.data);
+        toast.success("Reserva realizada con éxito!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          date: "",
+          time: "",
+          service: "",
+          vehicleType: "auto",
+          brand: "",
+          model: "",
+          licensePlate: "",
+        });
+      } catch (error) {
+        console.error("Error al enviar la reserva:", error);
+        toast.error("Error al realizar la reserva. Por favor, intente de nuevo.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     } else {
       toast.error("Por favor, corrija los errores en el formulario.", {
         position: "top-right",
@@ -135,6 +152,7 @@ const BookingPage: React.FC = () => {
       });
     }
   };
+
 
   const generateTimeOptions = () => {
     const options = [];
@@ -149,6 +167,9 @@ const BookingPage: React.FC = () => {
 
   return (
     <div className="booking-page">
+       <div className="back-link">
+        <Link to="/">← Volver a la página principal</Link>
+      </div>
       <h1>Reserva tu cita</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

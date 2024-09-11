@@ -3,9 +3,9 @@ import { createBooking, getBooking, updateBooking, deleteBooking } from '../cont
 
 const router = express.Router();
 
-router.post('/', createBooking);
-router.get('/:id', getBooking);
-router.put('/:id', updateBooking);
-router.delete('/:id', deleteBooking);
+router.post('/bookings', createBooking);
+router.get('/bookings/:id', getBooking);
+router.put('/bookings/:id', updateBooking);
+router.delete('/bookings/:id', deleteBooking);
 
 export default router; 
