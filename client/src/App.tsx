@@ -4,7 +4,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import HomePage from "./pages/HomePage";
-import UserProfile from "./components/UserProfile";
+import ProfilePage from "./pages/ProfilePage";
 import AdminDashboard from "./components/AdminDashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import BookingPage from "./pages/BookingPage";
@@ -22,7 +22,7 @@ const App: React.FC = () => {
             path="/profile"
             element={
               <PrivateRoute>
-                <UserProfile />
+                <ProfilePage />
               </PrivateRoute>
             }
           />

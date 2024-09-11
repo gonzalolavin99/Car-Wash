@@ -10,6 +10,15 @@ export interface User {
     role: 'admin' | 'client'
 }
 
+export interface Vehicle {
+    id: number;
+    user_id: number;
+    type: string;
+    brand: string;
+    model: string;
+    license_plate: string;
+}
+
 export class UserModel {
     private pool: Pool;
 
@@ -86,15 +95,52 @@ async deleteUser (id: number): Promise<boolean> {
     }
 }
 
-async getUserVehicles(userId: number): Promise<any[]>{
-    const query = 'SELECT * FROM vehicles WHERE user_id = $1';
+async getUserById(id: number): Promise<User | null> {
+    const query = `SELECT id, email, name, role FROM users WHERE id = $1`;
+    try {
+        const result = await this.pool.query(query, [id]);
+        return result.rows[0] || null;
+    } catch (error) {
+        console.error("Error in getUserById", error);
+        throw new Error('Failed to get user');
+    }
+}
 
-    try{
+async getUserVehicles(userId: number): Promise<Vehicle[]> {
+    const query = 'SELECT * FROM vehicles WHERE user_id = $1';
+    try {
         const result = await this.pool.query(query, [userId]);
         return result.rows;
-    } catch (error){
+    } catch (error) {
         console.error('Error in getUserVehicles:', error);
-        throw new Error ('Failed to get user vehicles');
+        throw new Error('Failed to get user vehicles');
+    }
+}
+
+async addVehicle(userId: number, vehicle: Omit<Vehicle, 'id' | 'user_id'>): Promise<Vehicle> {
+    const query = `
+        INSERT INTO vehicles (user_id, type, brand, model, license_plate)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *
+    `;
+    const values = [userId, vehicle.type, vehicle.brand, vehicle.model, vehicle.license_plate];
+    try {
+        const result = await this.pool.query(query, values);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error in addVehicle:', error);
+        throw new Error('Failed to add vehicle');
+    }
+}
+
+async deleteVehicle(userId: number, vehicleId: number): Promise<boolean> {
+    const query = 'DELETE FROM vehicles WHERE id = $1 AND user_id = $2';
+    try {
+        const result = await this.pool.query(query, [vehicleId, userId]);
+        return result.rowCount !== null && result.rowCount > 0;
+    } catch (error) {
+        console.error('Error in deleteVehicle:', error);
+        throw new Error('Failed to delete vehicle');
     }
 }
 

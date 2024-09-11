@@ -59,22 +59,43 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const getUserProfile = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getUserProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = (req as any).user.id;
-    const user = await userModel.getUserByEmail((req as any).user.email);
+    const user = await userModel.getUserById(userId);
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
     }
     const vehicles = await userModel.getUserVehicles(userId);
-    const visits = await userModel.getUserVisits(userId);
-    res.json({ user, vehicles, visits });
+    res.json({ ...user, vehicles });
   } catch (error) {
     res.status(500).json({ message: "Error fetching user profile", error });
+  }
+};
+
+export const addVehicle = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = (req as any).user.id;
+    const vehicle = await userModel.addVehicle(userId, req.body);
+    res.status(201).json(vehicle);
+  } catch (error) {
+    res.status(500).json({ message: "Error adding vehicle", error });
+  }
+};
+
+export const deleteVehicle = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = (req as any).user.id;
+    const vehicleId = parseInt(req.params.id);
+    const deleted = await userModel.deleteVehicle(userId, vehicleId);
+    if (deleted) {
+      res.json({ message: "Vehicle deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Vehicle not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting vehicle", error });
   }
 };
 

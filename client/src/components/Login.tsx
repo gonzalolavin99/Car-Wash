@@ -4,12 +4,14 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/Login.css"; // Importamos los estilos
+import { useAuth } from "../contexts/AuthContext";
 
 const Login: React.FC = () => {
   // Estado para almacenar los valores de los campos del formulario
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const {login} = useAuth(); 
 
   // Función para validar el formulario antes de enviarlo
   const validateForm = () => {
@@ -29,30 +31,23 @@ const Login: React.FC = () => {
   // Función para manejar el envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Valida el formulario antes de enviarlo
     if (!validateForm()) return;
 
     try {
-      // Envía la solicitud de inicio de sesión al servidor
       const response = await axios.post("http://localhost:3000/auth/login", {
         email,
         password,
       });
 
-      // Muestra un mensaje de éxito si el inicio de sesión es exitoso
       toast.success("Inicio de sesión exitoso!", {
         style: { background: "#0077be", color: "white" },
       });
 
-      // Guarda el token de autenticación en el almacenamiento local
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      login(response.data.token, response.data.user); // Usar la función login del contexto
 
-      // Limpiar el formulario
       setEmail("");
       setPassword("");
 
-      // Aquí puedes agregar lógica adicional post-login, como redireccionar al usuario
       setTimeout(() => {
         navigate('/');
       }, 2000);

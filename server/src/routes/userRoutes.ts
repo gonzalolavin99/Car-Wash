@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUserProfile, updateUserProfile, getAllUsers, deleteUser } from '../controllers/userController';
+import { getUserProfile, updateUserProfile, getAllUsers, deleteUser, addVehicle, deleteVehicle } from '../controllers/userController';
 import { authenticateJWT, isAdmin } from '../middleware/auth';
 
 const router = express.Router();
@@ -7,6 +7,8 @@ const router = express.Router();
 // Rutas de usuario autenticado
 router.get('/profile', authenticateJWT, getUserProfile);
 router.put('/profile', authenticateJWT, updateUserProfile);
+router.post('/vehicles', authenticateJWT, addVehicle);
+router.delete('/vehicles/:id', authenticateJWT, deleteVehicle);
 
 // Rutas de administrador
 router.get('/admin/users', authenticateJWT, isAdmin, getAllUsers);

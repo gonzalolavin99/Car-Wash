@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, Car, DollarSign, User, LogOut } from 'lucide-react';
 import '../styles/HomePage.css';
+import { useAuth } from '../contexts/AuthContext';
 
 type Service = {
   icon: React.ReactNode;
@@ -10,18 +11,11 @@ type Service = {
 };
 
 const HomePage: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setIsAuthenticated(false);
+    logout();
     navigate('/');
   };
 
@@ -48,6 +42,7 @@ const HomePage: React.FC = () => {
       <nav className="nav-links">
         {isAuthenticated ? (
           <>
+            <span className="welcome-message">Bienvenido, {user?.name}</span>
             <Link to="/profile" className="nav-link">
               <User size={20} />
               Perfil
