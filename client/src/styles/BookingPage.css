@@ -95,13 +95,6 @@ button[type="submit"]:focus {
   box-shadow: 0 0 0 2px rgba(0, 119, 190, 0.5);
 }
 
-@media (max-width: 600px) {
-  .booking-page {
-    padding: 1rem;
-  }
-}
-
-/* Estilos para Toastify */
 .Toastify__toast--success {
   background: #0077be !important;
   color: #ffffff !important;
@@ -114,4 +107,35 @@ button[type="submit"]:focus {
 
 .Toastify__progress-bar {
   background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+@media (max-width: 768px) {
+  .booking-page {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-page {
+    padding: 1rem;
+  }
+
+  .booking-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  button[type="submit"] {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
+  }
 }

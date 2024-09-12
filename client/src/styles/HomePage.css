@@ -1,4 +1,3 @@
-/* Estilos generales */
 .home-page {
   font-family: Arial, sans-serif;
   color: #333;
@@ -7,28 +6,34 @@
   padding: 20px;
 }
 
-/* Estilos para la navegación */
 .nav-links {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
 .nav-link {
-  margin-left: 20px;
+  margin: 10px;
   text-decoration: none;
   color: #0077be;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .nav-link:hover {
   text-decoration: underline;
 }
 
-/* Estilos para la sección hero */
+.nav-link svg {
+  margin-right: 0.5rem;
+}
+
 .hero {
   text-align: center;
-  padding: 50px 0;
+  padding: 50px 20px;
   background-color: #bddfff;
   border-radius: 8px;
   margin-bottom: 40px;
@@ -62,7 +67,6 @@
   background-color: #ffc600;
 }
 
-/* Estilos para la sección de servicios */
 .services {
   display: flex;
   justify-content: space-between;
@@ -94,41 +98,34 @@
   font-size: 0.9em;
 }
 
-.nav-links {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
-}
-
-.nav-link {
-  color: #0077be;
-  text-decoration: none;
-  margin-left: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-.nav-link svg {
-  margin-right: 0.5rem;
-}
-
-.logout-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #0077be;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-.logout-button:hover {
-  text-decoration: underline;
-}
-
-/* Responsive design */
 @media (max-width: 768px) {
+  .nav-links {
+    justify-content: center;
+  }
+
+  .hero h1 {
+    font-size: 2em;
+  }
+
+  .hero p {
+    font-size: 1em;
+  }
+
+  .service-card {
+    flex-basis: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 480px) {
   .service-card {
     flex-basis: 100%;
+  }
+
+  .hero {
+    padding: 30px 15px;
+  }
+
+  .hero h1 {
+    font-size: 1.8em;
   }
 }

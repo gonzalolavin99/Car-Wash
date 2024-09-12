@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 import { userModel, User } from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { bookingModel } from "../models/booking";
 
 const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, name, password, role = "client" } = req.body;
+    const { email, name, password, phone, role = "client" } = req.body;
     const existingUser = await userModel.getUserByEmail(email);
 
     if (existingUser) {
@@ -19,6 +20,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       email,
       name,
       password,
+      phone,
       role,
     } as User);
     res.status(201).json({ message: "User created successfully", user });
@@ -52,6 +54,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         email: user.email,
         name: user.name,
         role: user.role,
+        phone: user.phone,  // Incluimos el teléfono en la respuesta
       },
     });
   } catch (error) {
@@ -68,9 +71,21 @@ export const getUserProfile = async (req: Request, res: Response): Promise<void>
       return;
     }
     const vehicles = await userModel.getUserVehicles(userId);
-    res.json({ ...user, vehicles });
+    const bookings = await bookingModel.getBookingsByUserId(userId);
+    res.json({ ...user, vehicles, bookings });
   } catch (error) {
     res.status(500).json({ message: "Error fetching user profile", error });
+  }
+};
+
+export const getUserVehicles = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = (req as any).user.id;
+    const vehicles = await userModel.getUserVehicles(userId);
+    res.json(vehicles);
+  } catch (error) {
+    console.error("Error fetching user vehicles:", error);
+    res.status(500).json({ message: "Error fetching user vehicles", error });
   }
 };
 

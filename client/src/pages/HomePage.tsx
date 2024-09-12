@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Calendar, Car, DollarSign, User, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Calendar, Car, DollarSign, User } from 'lucide-react';
 import '../styles/HomePage.css';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -11,13 +11,7 @@ type Service = {
 };
 
 const HomePage: React.FC = () => {
-  const { isAuthenticated, user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+  const { isAuthenticated, user } = useAuth();
 
   const services: Service[] = [
     {
@@ -47,10 +41,6 @@ const HomePage: React.FC = () => {
               <User size={20} />
               Perfil
             </Link>
-            <button onClick={handleLogout} className="nav-link logout-button">
-              <LogOut size={20} />
-              Cerrar Sesión
-            </button>
           </>
         ) : (
           <>

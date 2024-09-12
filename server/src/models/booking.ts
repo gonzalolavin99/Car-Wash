@@ -2,7 +2,8 @@ import { Pool, QueryResult } from "pg";
 import pool from "../config/database";
 
 export interface Booking {
-  id?: number;
+  id: number;
+  user_id: number;
   name: string;
   email: string;
   phone: string;
@@ -24,23 +25,25 @@ export class BookingModel {
   }
 
   async createBooking(booking: Booking): Promise<Booking> {
+    const fields: string[] = [];
+    const values: any[] = [];
+    const placeholders: string[] = [];
+    let counter = 1;
+
+    Object.entries(booking).forEach(([key, value]) => {
+      if (value !== undefined) {
+        fields.push(key);
+        values.push(value);
+        placeholders.push(`$${counter}`);
+        counter++;
+      }
+    });
+
     const query = `
-      INSERT INTO bookings (name, email, phone, booking_date, booking_time, service, vehicle_type, brand, model, license_plate)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      INSERT INTO bookings (${fields.join(', ')})
+      VALUES (${placeholders.join(', ')})
       RETURNING *
     `;
-    const values = [
-      booking.name,
-      booking.email,
-      booking.phone,
-      booking.booking_date,
-      booking.booking_time,
-      booking.service,
-      booking.vehicle_type,
-      booking.brand,
-      booking.model,
-      booking.license_plate,
-    ];
 
     try {
       const result: QueryResult = await this.pool.query(query, values);
@@ -89,6 +92,17 @@ export class BookingModel {
     } catch (error) {
       console.error("Error in deleteBooking:", error);
       throw new Error("Failed to delete booking");
+    }
+  }
+
+  async getBookingsByUserId(userId: number): Promise<Booking[]> {
+    const query = "SELECT * FROM bookings WHERE user_id = $1 ORDER BY booking_date DESC, booking_time DESC";
+    try {
+      const result: QueryResult = await this.pool.query(query, [userId]);
+      return result.rows;
+    } catch (error) {
+      console.error("Error in getBookingsByUserId:", error);
+      throw new Error("Failed to get user bookings");
     }
   }
 }

@@ -3,16 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../styles/Register.css"; // Importamos los estilos
+import "../styles/Register.css";
 
 const API_URL = "http://localhost:3000";
 
 const Register: React.FC = () => {
-  // Estado para almacenar los valores de los campos del formulario
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState(""); // Nuevo estado para el teléfono
   const navigate = useNavigate();
 
   // Función para validar el formulario antes de enviarlo
@@ -29,6 +29,11 @@ const Register: React.FC = () => {
       toast.error("Email inválido");
       return false;
     }
+    if (!/^\+?[0-9]{10,14}$/.test(phone)) {
+      toast.error("Número de teléfono inválido");
+      return false;
+    }
+
     return true;
   };
 
@@ -41,6 +46,7 @@ const Register: React.FC = () => {
         name,
         email,
         password,
+        phone,  // Incluimos el teléfono en la solicitud
       });
 
       toast.success("Registro exitoso! Redirigiendo al login...", {
@@ -48,12 +54,14 @@ const Register: React.FC = () => {
       });
 
       console.log(response.data);
-      
+
       // Limpiar el formulario
       setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      setPhone("");
+
 
       // Redirigir al login después de 3 segundos
       setTimeout(() => {
@@ -116,6 +124,17 @@ const Register: React.FC = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="phone">Teléfono:</label>
+            <input
+              type="tel"
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
             />
           </div>
