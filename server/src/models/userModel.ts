@@ -184,6 +184,18 @@ export class UserModel {
       throw new Error("Failed to get user visits");
     }
   }
+
+  //Nuevo método para obtener el total de usuarios
+async getTotalUsers(): Promise<number> {
+  const query = "SELECT COUNT(*) FROM users";
+  try{
+    const result = await this.pool.query(query);
+    return parseInt(result.rows[0].count);
+  } catch (error) {
+    console.error("Error in getTotalUsers", error);
+    throw new Error("Failed to get total users count");
+  }
 }
+};
 
 export const userModel = new UserModel();

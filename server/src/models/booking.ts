@@ -104,6 +104,31 @@ export class BookingModel {
       console.error("Error in getBookingsByUserId:", error);
       throw new Error("Failed to get user bookings");
     }
+  };
+
+  //Método para obtener todas las reservas
+  async getAllBookings(): Promise<Booking[]> {
+    const query = "SELECT * FROM bookings ORDER BY booking_date DESC, booking_time DESC";
+    try{
+      const result: QueryResult = await this.pool.query(query);
+      return result.rows;
+    } catch(error) {
+      console.error('Error in getAllBookings')
+      throw new Error('Failed to get all bookings');
+    }
+  };
+
+  //Método para obtener el total de reservas 
+  async getTotalBookings(): Promise<number> {
+    const query = "SELECT COUNT(*) FROM bookings";
+  try{
+    const result: QueryResult = await this.pool.query(query);
+    return parseInt(result.rows[0].count);
+
+  }catch(error) {
+    console.error('Error in getTotalBookings', error);
+    throw new Error('Failed to get total bookings count');
+  }
   }
 }
 
